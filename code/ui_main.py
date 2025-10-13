@@ -47,8 +47,16 @@ class MainUI:
         self.template_cb.grid(row=0, column=3, padx=5)
 
         self.template_table = ttk.Treeview(frame, columns=("name","desc","type","access","address"), show="headings", height=5)
-        for col in ("name","desc","type","access","address"):
-            self.template_table.heading(col, text=col)
+        col_defs = {
+            "name": ("名称", 100),
+            "desc": ("描述", 150),
+            "type": ("类型", 80),
+            "access": ("读写", 80),
+            "address": ("地址", 60),
+        }      
+        for col, (text, width) in col_defs.items():
+            self.template_table.heading(col, text=text)
+            self.template_table.column(col, width=width, anchor="center")
         self.template_table.grid(row=1, column=0, columnspan=4, sticky='nsew', pady=5)
 
     def on_device_selected(self, event=None):
