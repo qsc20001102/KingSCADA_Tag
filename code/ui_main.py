@@ -11,7 +11,9 @@ class MainUI:
     def __init__(self, root, base_dir):
         self.root = root
         self.root.title("KingSCADA 点表生成工具")
-        self.root.geometry("1000x750")
+        self.root.geometry("1000x375")
+        # 禁止水平和垂直调整大小
+        root.resizable(False, False)
 
         self.base_dir = base_dir
         self.template_manager = TemplateManager(base_dir)
@@ -23,15 +25,23 @@ class MainUI:
         self.build_ui()
 
     def build_ui(self):
-        self.create_template_section()
-        self.create_csv_section()
+        # 第一行容器：模板区 + CSV区
+        top_row = ttk.Frame(self.root)
+        top_row.pack(side='top', fill='x', padx=5, pady=5)
+
+        self.create_template_section(parent=top_row)
+        self.create_csv_section(parent=top_row)
+
+        # 第二行：参数区
         self.create_input_section()
-        self.create_generate_section()
+
+        # 第三行：生成区
+        self.create_generate_section()    
 
     # ---------------- 模板区 ----------------
-    def create_template_section(self):
-        frame = ttk.LabelFrame(self.root, text="配置文件选择", padding=10)
-        frame.pack(fill='x', padx=10, pady=5)
+    def create_template_section(self, parent):
+        frame = ttk.LabelFrame(parent, text="配置文件选择", padding=5)
+        frame.pack(side='left', padx=5, pady=5, anchor='nw')
 
         ttk.Label(frame, text="设备类型：").grid(row=0, column=0, sticky='w')
         self.device_var = tk.StringVar()
@@ -50,14 +60,14 @@ class MainUI:
         col_defs = {
             "name": ("名称", 100),
             "desc": ("描述", 150),
-            "type": ("类型", 80),
+            "type": ("类型", 100),
             "access": ("读写", 80),
-            "address": ("地址", 60),
+            "address": ("地址", 78),
         }      
         for col, (text, width) in col_defs.items():
             self.template_table.heading(col, text=text)
             self.template_table.column(col, width=width, anchor="center")
-        self.template_table.grid(row=1, column=0, columnspan=4, sticky='nsew', pady=5)
+        self.template_table.grid(row=1, column=0, columnspan=4, sticky='nsew', pady=(9,5))
 
     def on_device_selected(self, event=None):
         device = self.device_var.get()
@@ -76,17 +86,23 @@ class MainUI:
             self.template_table.insert('', 'end', values=(item['name'], item['desc'], item['type'], item['access'], item['address']))
 
     # ---------------- CSV区 ----------------
-    def create_csv_section(self):
-        frame = ttk.LabelFrame(self.root, text="CSV 数据导入", padding=10)
-        frame.pack(fill='both', expand=True, padx=10, pady=5)
+    def create_csv_section(self, parent):
+        frame = ttk.LabelFrame(parent, text="CSV 数据导入", padding=5)
+        frame.pack(side='left', padx=5, pady=5, anchor='nw')
 
         btn = ttk.Button(frame, text="选择CSV文件", command=self.load_csv_file)
-        btn.pack(anchor='w')
+        btn.grid(row=0, column=0, sticky='w')
 
-        self.csv_table = ttk.Treeview(frame, columns=("code","desc","offset"), show="headings")
-        for col in ("code","desc","offset"):
-            self.csv_table.heading(col, text=col)
-        self.csv_table.pack(fill='both', expand=True, pady=5)
+        self.csv_table = ttk.Treeview(frame, columns=("code","desc","offset"), show="headings", height=5)
+        col_defs = {
+            "code": ("设备代号", 150),
+            "desc": ("设备名称", 200),
+            "offset": ("起始地址", 80),
+        } 
+        for col, (text, width) in col_defs.items():
+            self.csv_table.heading(col, text=text)
+            self.csv_table.column(col, width=width, anchor="center")
+        self.csv_table.grid(row=1, column=0, columnspan=4, sticky='nsew', pady=5)
 
     def load_csv_file(self):
         filepath = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
@@ -104,20 +120,21 @@ class MainUI:
     # ---------------- 参数区 ----------------
     def create_input_section(self):
         frame = ttk.LabelFrame(self.root, text="参数输入", padding=10)
-        frame.pack(fill='x', padx=10, pady=5)
+        frame.pack(side='top', fill='x', padx=10, pady=5)
 
         self.start_id = self._add_input(frame, "起始ID", 0)
-        self.ip = self._add_input(frame, "设备IP", 1)
-        self.dev_name = self._add_input(frame, "设备名称", 2)
-        self.group_name = self._add_input(frame, "分组名称", 3)
+        self.ip = self._add_input(frame, "设备IP", 0, 1)
+        self.dev_name = self._add_input(frame, "设备名称", 0, 2)
+        self.group_name = self._add_input(frame, "分组路径", 0, 3)
 
-        ttk.Label(frame, text="协议类型：").grid(row=1, column=0, sticky='w')
+        self.db_num = self._add_input(frame, "DB块号", 1)
+        ttk.Label(frame, text="协议类型：").grid(row=1, column=2, sticky='w')
         self.protocol_var = tk.StringVar()
         self.protocol_cb = ttk.Combobox(frame, textvariable=self.protocol_var, state='readonly')
         self.protocol_cb['values'] = ["S7-300", "S7-1200", "S7-1500"]
-        self.protocol_cb.grid(row=1, column=1, padx=5, pady=5)
+        self.protocol_cb.grid(row=1, column=3, padx=5, pady=5)
 
-        self.db_num = self._add_input(frame, "DB块号", 1, col=2)
+        
 
     def _add_input(self, parent, label, row, col=0):
         ttk.Label(parent, text=label+"：").grid(row=row, column=col*2, sticky='w')
@@ -132,7 +149,7 @@ class MainUI:
         frame.pack(fill='x', padx=10, pady=5)
 
         btn = ttk.Button(frame, text="生成点表文件", command=self.generate_csv)
-        btn.pack(anchor='e')
+        btn.pack(anchor='center')
 
     def generate_csv(self):
         if not self.template_data or not self.csv_data:
