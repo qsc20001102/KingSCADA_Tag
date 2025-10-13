@@ -67,31 +67,6 @@ class MainUI:
         for item in self.template_data:
             self.template_table.insert('', 'end', values=(item['name'], item['desc'], item['type'], item['access'], item['address']))
 
-    # ---------------- 参数区 ----------------
-    def create_input_section(self):
-        frame = ttk.LabelFrame(self.root, text="参数输入", padding=10)
-        frame.pack(fill='x', padx=10, pady=5)
-
-        self.start_id = self._add_input(frame, "起始ID", 0)
-        self.ip = self._add_input(frame, "设备IP", 1)
-        self.dev_name = self._add_input(frame, "设备名称", 2)
-        self.group_name = self._add_input(frame, "分组名称", 3)
-
-        ttk.Label(frame, text="协议类型：").grid(row=1, column=0, sticky='w')
-        self.protocol_var = tk.StringVar()
-        self.protocol_cb = ttk.Combobox(frame, textvariable=self.protocol_var, state='readonly')
-        self.protocol_cb['values'] = ["S7-300", "S7-1200", "S7-1500"]
-        self.protocol_cb.grid(row=1, column=1, padx=5, pady=5)
-
-        self.db_num = self._add_input(frame, "DB块号", 1, col=2)
-
-    def _add_input(self, parent, label, row, col=0):
-        ttk.Label(parent, text=label+"：").grid(row=row, column=col*2, sticky='w')
-        var = tk.StringVar()
-        entry = ttk.Entry(parent, textvariable=var, width=20)
-        entry.grid(row=row, column=col*2+1, padx=5, pady=5)
-        return var
-
     # ---------------- CSV区 ----------------
     def create_csv_section(self):
         frame = ttk.LabelFrame(self.root, text="CSV 数据导入", padding=10)
@@ -117,6 +92,31 @@ class MainUI:
             self.csv_table.delete(row)
         for row in self.csv_data:
             self.csv_table.insert('', 'end', values=(row['设备代号'], row['设备描述'], row['起始偏移']))
+
+    # ---------------- 参数区 ----------------
+    def create_input_section(self):
+        frame = ttk.LabelFrame(self.root, text="参数输入", padding=10)
+        frame.pack(fill='x', padx=10, pady=5)
+
+        self.start_id = self._add_input(frame, "起始ID", 0)
+        self.ip = self._add_input(frame, "设备IP", 1)
+        self.dev_name = self._add_input(frame, "设备名称", 2)
+        self.group_name = self._add_input(frame, "分组名称", 3)
+
+        ttk.Label(frame, text="协议类型：").grid(row=1, column=0, sticky='w')
+        self.protocol_var = tk.StringVar()
+        self.protocol_cb = ttk.Combobox(frame, textvariable=self.protocol_var, state='readonly')
+        self.protocol_cb['values'] = ["S7-300", "S7-1200", "S7-1500"]
+        self.protocol_cb.grid(row=1, column=1, padx=5, pady=5)
+
+        self.db_num = self._add_input(frame, "DB块号", 1, col=2)
+
+    def _add_input(self, parent, label, row, col=0):
+        ttk.Label(parent, text=label+"：").grid(row=row, column=col*2, sticky='w')
+        var = tk.StringVar()
+        entry = ttk.Entry(parent, textvariable=var, width=20)
+        entry.grid(row=row, column=col*2+1, padx=5, pady=5)
+        return var
 
     # ---------------- 生成区 ----------------
     def create_generate_section(self):
