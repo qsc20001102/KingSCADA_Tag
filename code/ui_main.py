@@ -24,8 +24,8 @@ class MainUI:
 
     def build_ui(self):
         self.create_template_section()
-        self.create_input_section()
         self.create_csv_section()
+        self.create_input_section()
         self.create_generate_section()
 
     # ---------------- 模板区 ----------------
