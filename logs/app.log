@@ -1,0 +1,60 @@
+2025-10-13 15:11:56,168 [INFO] 日志系统初始化完成
+2025-10-13 15:12:00,725 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_morot.json
+2025-10-13 15:12:24,862 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-13 15:12:28,763 [INFO] 成功生成点表文件：E:\Python\KingSCADA_Tag\output\generated_tags.csv（共 377 行）
+2025-10-13 15:16:47,688 [INFO] 日志系统初始化完成
+2025-10-13 15:16:51,973 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_morot.json
+2025-10-13 15:17:17,719 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-13 15:17:19,411 [INFO] 成功生成点表文件：E:\Python\KingSCADA_Tag\output\generated_tags.csv（共 377 行）
+2025-10-13 15:19:39,573 [INFO] 日志系统初始化完成
+2025-10-13 15:19:43,292 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_morot.json
+2025-10-13 15:20:33,319 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_morot.json
+2025-10-13 15:21:10,438 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-13 15:21:57,948 [INFO] 日志系统初始化完成
+2025-10-13 15:22:01,339 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_morot.json
+2025-10-13 15:22:24,391 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-13 15:28:57,510 [INFO] 日志系统初始化完成
+2025-10-13 15:28:57,510 [INFO] KingSCADA 点表生成工具启动
+2025-10-13 15:28:57,561 [WARNING] tag_config 目录不存在，已创建：E:\Python\KingSCADA_Tag\code\tag_config
+2025-10-13 15:30:14,364 [INFO] 日志系统初始化完成
+2025-10-13 15:30:14,365 [INFO] KingSCADA 点表生成工具启动
+2025-10-13 15:41:44,857 [INFO] 日志系统初始化完成
+2025-10-13 15:41:44,857 [INFO] KingSCADA 点表生成工具启动
+2025-10-13 15:42:12,562 [INFO] 加载 CSV 文件：E:/Python/KingSCADA_Tag/input_data/sample.csv
+2025-10-13 15:42:12,564 [INFO] CSV加载完成，共 13 行
+2025-10-13 15:49:18,794 [INFO] 程序退出
+2025-10-13 15:49:35,519 [INFO] 日志系统初始化完成
+2025-10-13 15:49:35,520 [INFO] KingSCADA 点表生成工具启动
+2025-10-13 15:51:32,676 [INFO] 日志系统初始化完成
+2025-10-13 15:51:32,677 [INFO] KingSCADA 点表生成工具启动
+2025-10-13 15:51:46,732 [INFO] 程序退出
+2025-10-13 15:51:54,486 [INFO] 日志系统初始化完成
+2025-10-13 15:51:54,487 [INFO] KingSCADA 点表生成工具启动
+2025-10-13 15:51:59,004 [INFO] 程序退出
+2025-10-13 15:55:01,157 [INFO] 日志系统初始化完成
+2025-10-13 15:55:01,158 [INFO] KingSCADA 点表生成工具启动
+2025-10-13 15:57:18,288 [INFO] 日志系统初始化完成
+2025-10-13 15:57:22,500 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_morot.json
+2025-10-13 15:57:55,305 [INFO] 日志系统初始化完成
+2025-10-13 15:57:58,388 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_morot.json
+2025-10-13 15:58:20,718 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-13 15:58:23,398 [INFO] 成功生成点表文件：E:\Python\KingSCADA_Tag\output\generated_tags.csv（共 377 行）
+2025-10-13 16:03:36,943 [INFO] 日志系统初始化完成
+2025-10-13 16:03:40,157 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_valve.json
+2025-10-13 16:14:16,612 [INFO] 日志系统初始化完成
+2025-10-13 16:14:50,166 [INFO] 日志系统初始化完成
+2025-10-13 16:14:56,694 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_pid.json
+2025-10-13 16:14:57,660 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_morot.json
+2025-10-13 16:16:51,164 [INFO] 日志系统初始化完成
+2025-10-13 16:16:56,576 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_morot.json
+2025-10-13 16:16:58,330 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_pid.json
+2025-10-13 16:17:29,078 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-13 16:18:06,021 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_valve.json
+2025-10-13 16:19:37,901 [INFO] 成功生成点表文件：E:\Python\KingSCADA_Tag\output\generated_tags.csv（共 299 行）
+2025-10-13 16:19:43,180 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_morot.json
+2025-10-13 16:19:44,214 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_pid.json
+2025-10-13 16:19:45,144 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_valve.json
+2025-10-13 16:33:54,992 [INFO] 日志系统初始化完成
+2025-10-13 16:36:23,758 [INFO] 日志系统初始化完成
+2025-10-13 16:44:33,611 [INFO] 已加载模板文件：E:\Python\KingSCADA_Tag\tag_config\siemens\udt_pid.json
+2025-10-13 16:45:03,950 [INFO] 日志系统初始化完成
