@@ -11,7 +11,7 @@ class MainUI:
     def __init__(self, root, base_dir):
         self.root = root
         self.root.title("KingSCADA 点表生成工具")
-        self.root.geometry("1000x375")
+        self.root.geometry("1000x400")
         # 禁止水平和垂直调整大小
         root.resizable(False, False)
 
@@ -47,14 +47,16 @@ class MainUI:
         self.device_var = tk.StringVar()
         self.device_cb = ttk.Combobox(frame, textvariable=self.device_var, state='readonly')
         self.device_cb['values'] = self.template_manager.get_device_types()
-        self.device_cb.bind('<<ComboboxSelected>>', self.on_device_selected)
         self.device_cb.grid(row=0, column=1, padx=5)
-
+        # 选择完成事件
+        self.device_cb.bind('<<ComboboxSelected>>', self.on_device_selected)
+        
         ttk.Label(frame, text="模板文件：").grid(row=0, column=2, sticky='w')
         self.template_var = tk.StringVar()
         self.template_cb = ttk.Combobox(frame, textvariable=self.template_var, state='readonly')
-        self.template_cb.bind('<<ComboboxSelected>>', self.on_template_selected)
         self.template_cb.grid(row=0, column=3, padx=5)
+        #选择完成事件
+        self.template_cb.bind('<<ComboboxSelected>>', self.on_template_selected)
 
         self.template_table = ttk.Treeview(frame, columns=("name","desc","type","access","address"), show="headings", height=5)
         col_defs = {
@@ -70,10 +72,15 @@ class MainUI:
         self.template_table.grid(row=1, column=0, columnspan=4, sticky='nsew', pady=(9,5))
 
     def on_device_selected(self, event=None):
+        """设备类型选择完成事件"""
+        # 获取目录下的所有模板文件
         device = self.device_var.get()
         self.template_cb['values'] = self.template_manager.get_templates_by_device(device)
+        #更新参数区的内容
+
 
     def on_template_selected(self, event=None):
+        """模板文件选择完成事件"""
         device = self.device_var.get()
         template = self.template_var.get()
         self.template_data = self.template_manager.load_template(device, template)
@@ -122,26 +129,115 @@ class MainUI:
         frame = ttk.LabelFrame(self.root, text="参数输入", padding=10)
         frame.pack(side='top', fill='x', padx=10, pady=5)
 
-        self.start_id = self._add_input(frame, "起始ID", 0)
-        self.ip = self._add_input(frame, "设备IP", 0, 1)
-        self.dev_name = self._add_input(frame, "设备名称", 0, 2)
-        self.group_name = self._add_input(frame, "分组路径", 0, 3)
+        self.start_id = self._add_input(frame, "起始ID", row=0, col=0, inivar=1001) 
+        self.dev_name = self._add_input(frame, "设备名称", row=0, col=1, inivar="PLC1")
+        self.group_name = self._add_input(frame, "分组路径", row=0, col=2, inivar="TEST.一期")
 
-        self.db_num = self._add_input(frame, "DB块号", 1)
-        ttk.Label(frame, text="协议类型：").grid(row=1, column=2, sticky='w')
-        self.protocol_var = tk.StringVar()
-        self.protocol_cb = ttk.Combobox(frame, textvariable=self.protocol_var, state='readonly')
-        self.protocol_cb['values'] = ["S7-300", "S7-1200", "S7-1500"]
-        self.protocol_cb.grid(row=1, column=3, padx=5, pady=5)
+        self.link = self._add_combobox(frame, "采集链路", row=1, col=0, listbox=["以太网", "COM"])
+        #选择完成事件
+        self.link["combobox"].bind('<<ComboboxSelected>>', self.on_link_selected)
+        self.link_com = self._add_input(frame, "串口号", row=1, col=1, inivar="11")
+        self.link_ip = self._add_input(frame, "IP地址", row=1, col=1, inivar="192.168.10.11") 
 
+
+        self.db_num = self._add_input(frame, "DB块号", row=2, col=0, inivar="DB3")
+        self.link = self._add_combobox(frame, "采集链路", row=1, col=0, listbox=["以太网", "COM"])
+        #self.db_num_var,self.db_num_cd = self._add_input(frame, "DB块号", 2)
+        #ttk.Label(frame, text="协议类型：").grid(row=2, column=2, sticky='w')
+        #self.protocol_var = tk.StringVar()
+        #self.protocol_cb = ttk.Combobox(frame, textvariable=self.protocol_var, state='readonly')
+        #self.protocol_cb['values'] = ["S7-300", "S7-1200", "S7-1500"]
+        #self.protocol_cb.grid(row=2, column=3, padx=5, pady=5)
+
+    def on_link_selected(self, event=None):
+        """链路选择完成事件"""
+        link_var = self.link["var"].get()
+        if link_var == "以太网" :
+            self.link_com["frame"].grid_remove()
+            self.link_ip["frame"].grid()
+        if link_var == "COM" :
+            self.link_ip["frame"].grid_remove()
+            self.link_com["frame"].grid()
         
+    def _add_input(
+            self, parent, label_text, 
+            row, col=0, inivar="", 
+            label_width=8, entry_width=20, colspan=1, sticky='w'
+        ):
+        """
+        添加一个带文本标签和输入框的组合控件，并返回 (StringVar, Frame) 以便后续控制。
+        - parent: 父容器
+        - label: 标签文字
+        - row, col: 放置在父容器的 grid 行列
+        - inivar: 初始值
+        - entry_width: 输入框宽度
+        - colspan: 该组控件在父容器上跨越的列数
+        - sticky: 对齐方式（默认左对齐）
+        """
+        group_frame = ttk.Frame(parent)
+        group_frame.grid(row=row, column=col, columnspan=colspan, sticky=sticky, padx=5, pady=3)
 
-    def _add_input(self, parent, label, row, col=0):
-        ttk.Label(parent, text=label+"：").grid(row=row, column=col*2, sticky='w')
+        # 标签
+        label = ttk.Label(group_frame, text=label_text + "：", width=label_width, anchor='w').grid(row=0, column=0, sticky='w', padx=(0, 5))
+
+        # 输入框
+        var = tk.StringVar(value=inivar)
+        entry = ttk.Entry(group_frame, textvariable=var, width=entry_width)
+        entry.grid(row=0, column=1, sticky='w')
+
+        return {
+            "frame": group_frame,
+            "label": label,
+            "entry": entry,
+            "var": var
+        }
+
+    def _add_combobox(
+        self, parent, label_text, row, col=0,
+        listbox=[], inivar=0, width=17, colspan=1,
+        sticky='w', label_width=8, state="readonly"
+    ):
+        """
+        创建一组 [标签 + 下拉框] 控件。
+        返回 dict，方便外部单独或统一控制。
+
+        - values: 下拉选项列表
+        - default: 初始值（可选）
+        - state: "readonly" 表示只能从列表选，"normal" 可手动输入
+        """
+        frame = ttk.Frame(parent)
+        frame.grid(row=row, column=col, columnspan=colspan, sticky=sticky, padx=5, pady=3)
+
+        # 标签
+        label = ttk.Label(
+            frame,
+            text=label_text + "：",
+            width=label_width,
+            anchor='w'
+        )
+        label.grid(row=0, column=0, sticky='w', padx=(0, 5))
+
+        # 变量 + 下拉框
         var = tk.StringVar()
-        entry = ttk.Entry(parent, textvariable=var, width=20)
-        entry.grid(row=row, column=col*2+1, padx=5, pady=5)
-        return var
+        combobox = ttk.Combobox(
+            frame,
+            textvariable=var,
+            values=listbox,
+            width=width,
+            state=state
+        )
+        combobox.grid(row=0, column=1, sticky='w')
+        var.set(listbox[inivar])
+
+        return {
+            "frame": frame,
+            "label": label,
+            "combobox": combobox,
+            "var": var
+        }
+
+
+
 
     # ---------------- 生成区 ----------------
     def create_generate_section(self):
@@ -157,13 +253,13 @@ class MainUI:
             return
 
         inputs = {
-            "start_id": self.start_id.get(),
-            "ip": self.ip.get(),
-            "device_name": self.dev_name.get(),
-            "group_name": self.group_name.get(),
-            "protocol": self.protocol_var.get(),
-            "db_num": self.db_num.get()
+            "start_id": self.start_id["var"].get(),
+            "ip": self.link_ip["var"].get(),
+            "device_name": self.dev_name["var"].get(),
+            "group_name": self.group_name["var"].get(),
+            "protocol": self.group_name["var"].get(),
+            "db_num": self.group_name["var"].get()
         }
 
         output_path = self.csv_manager.generate_output(self.template_data, inputs)
-        messagebox.showinfo("生成成功", f"点表已生成：\n{output_path}")
+        
