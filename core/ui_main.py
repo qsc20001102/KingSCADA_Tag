@@ -61,7 +61,7 @@ class MainUI:
         self.template_table = ttk.Treeview(frame, columns=("name","desc","type","access","address"), show="headings", height=5)
         col_defs = {
             "name": ("名称", 100),
-            "desc": ("描述", 150),
+            "desc": ("描述", 130),
             "type": ("类型", 100),
             "access": ("读写", 80),
             "address": ("地址", 78),
@@ -77,6 +77,18 @@ class MainUI:
         device = self.device_var.get()
         self.template_cb['values'] = self.template_manager.get_templates_by_device(device)
         #更新参数区的内容
+        if device == "SIEMENS" :
+            self.deviceseries['combobox']['values'] = self.deviceseries_siemens
+            self.channeldriver['combobox']['values'] = self.channeldriver_siemens
+            self.deviceseries['var'].set(self.deviceseries_siemens[0])
+            self.channeldriver['var'].set(self.channeldriver_siemens[0])
+            self.db_num["frame"].grid()
+        if device == "AB" :
+            self.deviceseries['combobox']['values'] = self.deviceseries_ab
+            self.channeldriver['combobox']['values'] = self.channeldriver_ab
+            self.deviceseries['var'].set(self.deviceseries_ab[0])
+            self.channeldriver['var'].set(self.channeldriver_ab[0])
+            self.db_num["frame"].grid_remove()
 
 
     def on_template_selected(self, event=None):
@@ -103,8 +115,8 @@ class MainUI:
         self.csv_table = ttk.Treeview(frame, columns=("code","desc","offset"), show="headings", height=5)
         col_defs = {
             "code": ("设备代号", 150),
-            "desc": ("设备名称", 200),
-            "offset": ("起始地址", 80),
+            "desc": ("设备名称", 180),
+            "offset": ("拼接地址", 120),
         } 
         for col, (text, width) in col_defs.items():
             self.csv_table.heading(col, text=text)
@@ -140,9 +152,12 @@ class MainUI:
         self.link_ip = self._add_input(frame, "IP地址", row=1, col=1, inivar="192.168.10.11") 
 
         self.deviceseries_siemens = ["S7-1500", "S7-1200", "S7-300"]
+        self.channeldriver_siemens = ["S71500Tcp", "S71200Tcp", "S7300Tcp"]
+        self.deviceseries_ab = ["AB-ControlLogixTCP"]
+        self.channeldriver_ab = ["ControlLogix"]
         self.deviceseries = self._add_combobox(frame, "设备系列", row=2, col=0, listbox=self.deviceseries_siemens)
-
-        #self.db_num = self._add_input(frame, "DB块号", row=2, col=1, inivar="DB3")
+        self.channeldriver = self._add_combobox(frame, "通道驱动", row=2, col=1, listbox=self.channeldriver_siemens)
+        self.db_num = self._add_input(frame, "DB块号", row=2, col=2, inivar="3")
         
         #self.db_num_var,self.db_num_cd = self._add_input(frame, "DB块号", 2)
         #ttk.Label(frame, text="协议类型：").grid(row=2, column=2, sticky='w')
@@ -255,12 +270,17 @@ class MainUI:
             return
 
         inputs = {
-            "start_id": self.start_id["var"].get(),
+            "start_id": self.start_id["var"].get(), #起始ID
             "ip": self.link_ip["var"].get(),
-            "device_name": self.dev_name["var"].get(),
-            "group_name": self.group_name["var"].get(),
-            "protocol": self.group_name["var"].get(),
-            "db_num": self.group_name["var"].get()
+            "device_name": self.dev_name["var"].get(),  #设备名称
+            "group_name": self.group_name["var"].get(), #分组路径
+            "link":self.link["var"].get(),  #链路选择
+            "link_ip":self.link_ip["var"].get(),    #IP地址
+            "link_com":self.link_com["var"].get(),  #串口号
+            "deviceseries": self.deviceseries["var"].get(), #设备系类
+            "channeldriver": self.channeldriver["var"].get(),   #通道驱动
+            "db_num": self.db_num["var"].get(),  #DB块号
+            "device": self.device_var.get()  #设备类型
         }
 
         output_path = self.csv_manager.generate_output(self.template_data, inputs)

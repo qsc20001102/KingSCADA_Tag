@@ -7,7 +7,6 @@ if __name__ == "__main__":
     setup_logger()
     base_dir = os.path.dirname(os.path.abspath(__file__))
     
-    #print(base_dir)
     root = tk.Tk()
     app = MainUI(root, base_dir)
     root.mainloop()
