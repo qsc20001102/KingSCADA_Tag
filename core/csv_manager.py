@@ -1,6 +1,7 @@
 import csv
 import os
 import logging
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +35,9 @@ class CSVManager:
         根据模板和 CSV 数据拼接生成新的 CSV 文件
         user_inputs 包含：start_id, ip, device_name, group_name, protocol, db_num
         """
-        output_path = os.path.join(self.base_dir, 'output', 'generated_tags.csv')
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        output_filename = f"{user_inputs['device']}_tags_{timestamp}.csv"
+        output_path = os.path.join(self.base_dir, 'output', output_filename)
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         #表头
         headers = ["TagID", "TagName", "Description", "TagType", "TagDataType",
@@ -91,7 +94,7 @@ class CSVManager:
                     if tpl['type'] == "IODisc":
                         ItemName = f"DB{user_inputs['db_num']}.{base_offset + float(tpl['address']):.1f}"
                     else:
-                        ItemName = f"DB{user_inputs['db_num']}.{base_offset + int(tpl['address'])}"
+                        ItemName = f"DB{user_inputs['db_num']}.{int(base_offset) + int(tpl['address'])}"
                     RegName = "DB"
                     RegType = "3"
                 elif user_inputs['device'] == "AB":
@@ -118,7 +121,7 @@ class CSVManager:
                     RegName,
                     RegType,
                     ItemDataType,
-                    tpl['address'],
+                    tpl['access'],
 
                 ]     
                 row[5:5]=DataType

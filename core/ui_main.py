@@ -159,13 +159,6 @@ class MainUI:
         self.channeldriver = self._add_combobox(frame, "通道驱动", row=2, col=1, listbox=self.channeldriver_siemens)
         self.db_num = self._add_input(frame, "DB块号", row=2, col=2, inivar="3")
         
-        #self.db_num_var,self.db_num_cd = self._add_input(frame, "DB块号", 2)
-        #ttk.Label(frame, text="协议类型：").grid(row=2, column=2, sticky='w')
-        #self.protocol_var = tk.StringVar()
-        #self.protocol_cb = ttk.Combobox(frame, textvariable=self.protocol_var, state='readonly')
-        #self.protocol_cb['values'] = ["S7-300", "S7-1200", "S7-1500"]
-        #self.protocol_cb.grid(row=2, column=3, padx=5, pady=5)
-
     def on_link_selected(self, event=None):
         """链路选择完成事件"""
         link_var = self.link["var"].get()
@@ -252,8 +245,6 @@ class MainUI:
             "combobox": combobox,
             "var": var
         }
-
-
 
 
     # ---------------- 生成区 ----------------

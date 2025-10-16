@@ -352,3 +352,36 @@
 2025-10-16 17:13:42,654 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\SIEMENS\udt_morot.json
 2025-10-16 17:13:45,908 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
 2025-10-16 17:13:47,050 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\generated_tags.csv（共 377 行）
+2025-10-16 18:56:58,019 [INFO] 日志系统初始化完成
+2025-10-16 18:57:02,043 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\SIEMENS\udt_morot.json
+2025-10-16 18:57:04,610 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-16 18:57:13,123 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\generated_tags.csv（共 377 行）
+2025-10-16 18:58:52,204 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\AB\udt_morot.json
+2025-10-16 18:59:11,386 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\generated_tags.csv（共 377 行）
+2025-10-16 19:01:13,442 [INFO] 日志系统初始化完成
+2025-10-16 19:01:19,477 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\AB\udt_morot.json
+2025-10-16 19:01:25,268 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-16 19:41:59,837 [INFO] 日志系统初始化完成
+2025-10-16 19:42:02,889 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\AB\udt_morot.json
+2025-10-16 19:42:05,515 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-16 19:42:09,039 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\generated_tags.csv（共 377 行）
+2025-10-16 19:53:03,239 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\generated_tags.csv（共 377 行）
+2025-10-16 19:57:04,824 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\SIEMENS\udt_pid.json
+2025-10-16 19:57:06,107 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\SIEMENS\udt_morot.json
+2025-10-16 19:57:09,388 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-16 19:57:13,770 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\generated_tags.csv（共 377 行）
+2025-10-16 20:02:43,615 [INFO] 日志系统初始化完成
+2025-10-16 20:02:47,987 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\SIEMENS\udt_morot.json
+2025-10-16 20:02:53,811 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\AB\udt_morot.json
+2025-10-16 20:02:56,155 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-16 20:03:17,669 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\generated_tags.csv（共 377 行）
+2025-10-16 20:03:56,807 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\SIEMENS\udt_pid.json
+2025-10-16 20:04:01,825 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\generated_tags.csv（共 273 行）
+2025-10-16 20:04:18,820 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\generated_tags.csv（共 273 行）
+2025-10-16 20:04:24,781 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\SIEMENS\udt_valve.json
+2025-10-16 20:04:29,548 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\generated_tags.csv（共 299 行）
+2025-10-16 20:10:49,941 [INFO] 日志系统初始化完成
+2025-10-16 20:10:53,119 [INFO] 已加载模板文件：E:\Git\KingSCADA_Tag\tag_config\SIEMENS\udt_valve.json
+2025-10-16 20:10:56,357 [INFO] 成功加载 CSV：E:/Python/KingSCADA_Tag/input_data/sample.csv，共 13 行
+2025-10-16 20:10:57,602 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\SIEMENS_tags_20251016201057.csv（共 299 行）
+2025-10-16 20:11:06,816 [INFO] 成功生成点表文件：E:\Git\KingSCADA_Tag\output\SIEMENS_tags_20251016201106.csv（共 299 行）
