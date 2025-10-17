@@ -10,11 +10,10 @@ logger = logging.getLogger(__name__)
 class MainUI:
     def __init__(self, root, base_dir):
         self.root = root
-        self.root.title("KingSCADA 点表生成工具")
-        self.root.geometry("1000x400")
-        # 禁止水平和垂直调整大小
-        root.resizable(False, False)
-
+        self.root.title("KingSCADA 点表生成工具")   # 窗口标题
+        self.root.geometry("1000x400")  # 窗口大小
+        root.resizable(False, False)    # 禁止水平和垂直调整大小
+        
         self.base_dir = base_dir
         self.template_manager = TemplateManager(base_dir)
         self.csv_manager = CSVManager(base_dir)
@@ -23,6 +22,7 @@ class MainUI:
         self.csv_data = []
 
         self.build_ui()
+        logging.info(base_dir)
 
     def build_ui(self):
         # 第一行容器：模板区 + CSV区
@@ -275,4 +275,5 @@ class MainUI:
         }
 
         output_path = self.csv_manager.generate_output(self.template_data, inputs)
+        messagebox.showwarning("生成成功", output_path, icon="info")
         
