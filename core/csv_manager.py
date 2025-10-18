@@ -43,7 +43,7 @@ class CSVManager:
         headers = ["TagID", "TagName", "Description", "TagType", "TagDataType",
                    "MaxRawValue", "MinRawValue", "MaxValue", "MinValue", "NonLinearTableName",
                    "ConvertType", "IsFilter", "DeadBand", "Unit", "ChannelName",
-                   "DeviceName", "ChannelDriver", "DeviceSeries", "DeviceSeriesType", "CollectControl"
+                   "DeviceName", "ChannelDriver", "DeviceSeries", "DeviceSeriesType", "CollectControl",
                    "CollectInterval", "CollectOffset", "TimeZoneBias", "TimeAdjustment", "Enable",
                    "ForceWrite", "ItemName", "RegName", "RegType", "ItemDataType",	
                    "ItemAccessMode", "HisRecordMode", "HisDeadBand", "HisInterval", "TagGroup",
@@ -52,8 +52,9 @@ class CSVManager:
                    "UANodePath"
         ]
         #固定数据
-        fixeddata1 = ["0","否","1000","0","0","是","否"]
-        fixeddata2 = ["不记录","0","60","TEST","0","0","","-1","0","0","0","0","0","0","0",""]
+        fixeddata1 = ["0","否","1000","0","0","0","是","否"]
+        fixeddata2 = ["不记录","0","60"]
+        fixeddata3 = ["0","0","","-1","0","0","0","0","0","0","0",""]
         #数据处理
         DataType_IODisc = ["","","","","","","",""]
         DataType_IOShort = ["32767","-32767","32767","-32767","","无","否","0"]
@@ -122,11 +123,13 @@ class CSVManager:
                     RegType,
                     ItemDataType,
                     tpl['access'],
+                    user_inputs['group_name']
 
                 ]     
                 row[5:5]=DataType
                 row[18:18]=fixeddata1
                 row[31:31]=fixeddata2
+                row[35:35]=fixeddata3
                 rows.append(row)
                 count += 1
 
