@@ -54,7 +54,7 @@ class CSVManager:
         #固定数据
         fixeddata1 = ["0","否","1000","0","0","0","是","否"]
         fixeddata2 = ["不记录","0","60"]
-        fixeddata3 = ["0","0","","-1","0","0","0","0","0","0","0",""]
+        fixeddata3 = ["0","0","","-1","1","0","0","0","0","0",""]
         #数据处理
         DataType_IODisc = ["","","","","","","",""]
         DataType_IOShort = ["32767","-32767","32767","-32767","","无","否","0"]
@@ -133,7 +133,7 @@ class CSVManager:
                 rows.append(row)
                 count += 1
 
-        with open(output_path, 'w', newline='', encoding='utf-8-sig') as f:
+        with open(output_path, 'w', newline='', encoding='ANSI') as f:
             writer = csv.writer(f)
             writer.writerow(headers)
             writer.writerows(rows)

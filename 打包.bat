@@ -1,0 +1,1 @@
+pyinstaller -F -w main.py -n KingSCADA_Tag
