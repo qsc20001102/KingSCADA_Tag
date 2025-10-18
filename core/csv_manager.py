@@ -123,7 +123,7 @@ class CSVManager:
                     RegType,
                     ItemDataType,
                     tpl['access'],
-                    user_inputs['group_name']
+                    f"{user_inputs['group_name']}.{code}"
 
                 ]     
                 row[5:5]=DataType
