@@ -148,4 +148,6 @@ class CSVManager:
             writer.writerows(rows)
 
         logger.info(f"成功生成点表文件：{output_path}（共 {len(rows)} 行）")
-        return output_path
+        output = f"成功生成点表文件：{output_path}（共 {len(rows)} 行）"
+        
+        return output

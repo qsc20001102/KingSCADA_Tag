@@ -44,22 +44,13 @@ class MainUI:
         frame.pack(side='left', padx=5, pady=5, anchor='nw')
 
         self.device_cb = self._add_combobox(frame, "设备类型：", row=0, col=0, listbox=self.template_manager.get_device_types(), inivar=-1)
-        #ttk.Label(frame, text="设备类型：").grid(row=0, column=0, sticky='w')
-        #self.device_var = tk.StringVar()
-        #self.device_cb = ttk.Combobox(frame, textvariable=self.device_var, state='readonly')
-        #self.device_cb['values'] = self.template_manager.get_device_types()
-        #self.device_cb.grid(row=0, column=1, padx=5)
         # 选择完成事件
         self.device_cb["combobox"].bind('<<ComboboxSelected>>', self.on_device_selected)
         
         self.template_cb = self._add_combobox(frame, "模板文件：", row=0, col=1, listbox=[], inivar=-1)
-        #ttk.Label(frame, text="模板文件：").grid(row=0, column=2, sticky='w')
-        #self.template_var = tk.StringVar()
-        #self.template_cb = ttk.Combobox(frame, textvariable=self.template_var, state='readonly')
-        #self.template_cb.grid(row=0, column=3, padx=5)
         #选择完成事件
         self.template_cb['combobox'].bind('<<ComboboxSelected>>', self.on_template_selected)
-
+        # 模板显示表格
         self.template_table = ttk.Treeview(frame, columns=("name","desc","type","access","address"), show="headings", height=5)
         col_defs = {
             "name": ("名称", 100),
@@ -80,14 +71,14 @@ class MainUI:
         self.template_cb['combobox']['values'] = self.template_manager.get_templates_by_device(device)
         #更新参数区的内容
         if device == "SIEMENS" :
-            for row in self.template_table.get_children():
+            for row in self.template_table.get_children():  #清空表格
                 self.template_table.delete(row)
-            self.template_cb['var'].set("")
-            self.deviceseries['combobox']['values'] = self.deviceseries_siemens
-            self.channeldriver['combobox']['values'] = self.channeldriver_siemens
-            self.deviceseries['var'].set(self.deviceseries_siemens[0])
-            self.channeldriver['var'].set(self.channeldriver_siemens[0])
-            self.db_num["frame"].grid()
+            self.template_cb['var'].set("") #清空模板选择
+            self.deviceseries['combobox']['values'] = self.deviceseries_siemens #更新设备系列选项
+            self.channeldriver['combobox']['values'] = self.channeldriver_siemens   #更新通道驱动选项
+            self.deviceseries['var'].set(self.deviceseries_siemens[0])  #设置默认值
+            self.channeldriver['var'].set(self.channeldriver_siemens[0])    #设置默认值
+            self.db_num["frame"].grid() #显示DB块号输入框
         if device == "AB" :
             for row in self.template_table.get_children():
                 self.template_table.delete(row)
@@ -96,7 +87,7 @@ class MainUI:
             self.channeldriver['combobox']['values'] = self.channeldriver_ab
             self.deviceseries['var'].set(self.deviceseries_ab[0])
             self.channeldriver['var'].set(self.channeldriver_ab[0])
-            self.db_num["frame"].grid_remove()
+            self.db_num["frame"].grid_remove()  #隐藏DB块号输入框
 
 
     def on_template_selected(self, event=None):
@@ -144,9 +135,10 @@ class MainUI:
         self.refresh_csv_table()
 
     def refresh_csv_table(self):
+        """刷新CSV显示表格"""
+        for row in self.csv_table.get_children():
+            self.csv_table.delete(row)
         try:
-            for row in self.csv_table.get_children():
-                self.csv_table.delete(row)
             for row in self.csv_data:
                 self.csv_table.insert('', 'end', values=(row['设备代号'], row['设备描述'], row['拼接地址']))
         except Exception as e:
@@ -168,7 +160,7 @@ class MainUI:
         self.link["combobox"].bind('<<ComboboxSelected>>', self.on_link_selected)
         self.link_com = self._add_input(frame, "串口号", row=1, col=1, inivar="11")
         self.link_ip = self._add_input(frame, "IP地址", row=1, col=1, inivar="192.168.10.11") 
-
+        
         self.deviceseries_siemens = ["S7-1500", "S7-1200", "S7-300"]
         self.channeldriver_siemens = ["S71500Tcp", "S71200Tcp", "S7300Tcp"]
         self.deviceseries_ab = ["AB-ControlLogixTCP"]
