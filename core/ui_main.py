@@ -105,6 +105,8 @@ class MainUI:
             for item in self.template_data:
                 self.template_table.insert('', 'end', values=(item['name'], item['desc'], item['type'], item['access'], item['address']))
         except Exception as e:
+            for row in self.template_table.get_children():
+                self.template_table.delete(row)
             logger.error(f"加载模板异常{e}")
             messagebox.showwarning("加载出错", f"加载模板异常{e}", icon="error")
 
@@ -142,6 +144,8 @@ class MainUI:
             for row in self.csv_data:
                 self.csv_table.insert('', 'end', values=(row['设备代号'], row['设备描述'], row['拼接地址']))
         except Exception as e:
+            for row in self.csv_table.get_children():
+                self.csv_table.delete(row)
             logger.error(f"导入数据异常{e}")
             messagebox.showwarning("导入出错", f"导入数据异常{e}\n检查第一行列名是否正确", icon="error")
 
