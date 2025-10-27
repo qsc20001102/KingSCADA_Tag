@@ -35,10 +35,10 @@ class CSVManager:
         根据模板和 CSV 数据拼接生成新的 CSV 文件
         user_inputs 包含：start_id, ip, device_name, group_name, protocol, db_num
         """
-        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-        output_filename = f"{user_inputs['device']}_tags_{timestamp}.csv"
-        output_path = os.path.join(self.base_dir, 'output', output_filename)
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S") #获取当前时间
+        output_filename = f"{user_inputs['device']}_{timestamp}.csv"    #输出文件名
+        output_path = os.path.join(self.base_dir, 'output', output_filename)    #输出文件路径
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)    #确保输出目录存在
         #表头
         headers = ["TagID", "TagName", "Description", "TagType", "TagDataType",
                    "MaxRawValue", "MinRawValue", "MaxValue", "MinValue", "NonLinearTableName",
@@ -55,7 +55,7 @@ class CSVManager:
         fixeddata1 = ["0","否","1000","0","0","0","是","否"]
         fixeddata2 = ["不记录","0","60"]
         fixeddata3 = ["0","0","","-1","1","0","0","0","0","0",""]
-        #数据处理
+        #依据数据类型变化数据
         DataType_IODisc = ["","","","","","","",""]
         DataType_IOShort = ["32767","-32767","32767","-32767","","无","否","0"]
         DataType_IOFloat = ["1000000000","-1000000000","1000000000","-1000000000","","无","否","0"]
@@ -65,15 +65,16 @@ class CSVManager:
         for device_row in self.csv_data:
             code = device_row['设备代号']
             desc = device_row['设备描述']
+            #拼接地址处理
             if user_inputs['device'] == "SIEMENS":
-                base_offset = float(device_row['起始偏移'])
+                base_offset = float(device_row['拼接地址'])
             else:
-                base_offset = device_row['起始偏移']
-
+                base_offset = device_row['拼接地址']
+            #每个设备遍历模板数据
             for tpl in template_data:
-                TagName = f"{code}{tpl['name']}"
-                Description = f"{desc}{tpl['desc']}"      
-                #和数据类型相关的数据      
+                TagName = f"{code}{tpl['name']}"    #点名拼接
+                Description = f"{desc}{tpl['desc']}"    #描述拼接   
+                #数据类型相关数据处理      
                 if tpl['type'] =="IOFloat":
                     DataType = DataType_IOFloat
                     ItemDataType = "FLOAT"
@@ -83,14 +84,14 @@ class CSVManager:
                 else:
                     DataType = DataType_IODisc
                     ItemDataType = "BIT"
-                #和链路相关数据
+                #链路相关数据处理
                 if user_inputs['link'] == "COM":
                     ChannelName = f"{user_inputs['link']}{user_inputs['link_com']}"
                 elif user_inputs['link'] == "以太网":
                     ChannelName = f"{user_inputs['link']}<{user_inputs['link_ip']}>"
                 else:
                     ChannelName = ""
-                #和设备类型相关的数据处理
+                #设备类型相关数据处理，主要是采集地址拼接
                 if user_inputs['device'] == "SIEMENS":
                     if tpl['type'] == "IODisc":
                         ItemName = f"DB{user_inputs['db_num']}.{base_offset + float(tpl['address']):.1f}"
@@ -99,14 +100,22 @@ class CSVManager:
                     RegName = "DB"
                     RegType = "3"
                 elif user_inputs['device'] == "AB":
-                    ItemName = f"{base_offset}.{tpl['address']}"
+                    if tpl['address'] != "":
+                        ItemName = f"TAG{base_offset}.{tpl['address']}"
+                    else:
+                        ItemName = ""
                     RegName = "TAG"
                     RegType = "0"
                 else:
                     ItemName = ""
                     RegName = ""
                     RegType = ""
-
+                #是否启用设备分组处理
+                if user_inputs['group_name_en'] == "启用":
+                    group_name = f"{user_inputs['group_name']}.{code}"
+                else:
+                    group_name = user_inputs['group_name']
+                #每行数据的变量部分
                 row = [
                     int(user_inputs['start_id']) + count,
                     TagName,
@@ -123,16 +132,16 @@ class CSVManager:
                     RegType,
                     ItemDataType,
                     tpl['access'],
-                    f"{user_inputs['group_name']}.{code}"
-
+                    group_name
                 ]     
+                #每行数据的固定数据插入
                 row[5:5]=DataType
                 row[18:18]=fixeddata1
                 row[31:31]=fixeddata2
                 row[35:35]=fixeddata3
                 rows.append(row)
                 count += 1
-
+        #写入输出文件
         with open(output_path, 'w', newline='', encoding='ANSI') as f:
             writer = csv.writer(f)
             writer.writerow(headers)

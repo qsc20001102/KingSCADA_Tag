@@ -17,12 +17,12 @@ class MainUI:
         self.base_dir = base_dir
         self.template_manager = TemplateManager(base_dir)
         self.csv_manager = CSVManager(base_dir)
-
+        # 初始化导入数据模板数据
         self.template_data = []
         self.csv_data = []
 
         self.build_ui()
-        logging.info(base_dir)
+        logging.info(f"工具运行根目录{base_dir}")
 
     def build_ui(self):
         # 第一行容器：模板区 + CSV区
@@ -78,12 +78,18 @@ class MainUI:
         self.template_cb['values'] = self.template_manager.get_templates_by_device(device)
         #更新参数区的内容
         if device == "SIEMENS" :
+            for row in self.template_table.get_children():
+                self.template_table.delete(row)
+            self.template_var.set("")
             self.deviceseries['combobox']['values'] = self.deviceseries_siemens
             self.channeldriver['combobox']['values'] = self.channeldriver_siemens
             self.deviceseries['var'].set(self.deviceseries_siemens[0])
             self.channeldriver['var'].set(self.channeldriver_siemens[0])
             self.db_num["frame"].grid()
         if device == "AB" :
+            for row in self.template_table.get_children():
+                self.template_table.delete(row)
+            self.template_var.set("")
             self.deviceseries['combobox']['values'] = self.deviceseries_ab
             self.channeldriver['combobox']['values'] = self.channeldriver_ab
             self.deviceseries['var'].set(self.deviceseries_ab[0])
@@ -101,8 +107,12 @@ class MainUI:
     def refresh_template_table(self):
         for row in self.template_table.get_children():
             self.template_table.delete(row)
-        for item in self.template_data:
-            self.template_table.insert('', 'end', values=(item['name'], item['desc'], item['type'], item['access'], item['address']))
+        try:
+            for item in self.template_data:
+                self.template_table.insert('', 'end', values=(item['name'], item['desc'], item['type'], item['access'], item['address']))
+        except Exception as e:
+            logger.error(f"加载模板异常{e}")
+            messagebox.showwarning("加载出错", f"加载模板异常{e}", icon="error")
 
     # ---------------- CSV区 ----------------
     def create_csv_section(self, parent):
@@ -131,10 +141,14 @@ class MainUI:
         self.refresh_csv_table()
 
     def refresh_csv_table(self):
-        for row in self.csv_table.get_children():
-            self.csv_table.delete(row)
-        for row in self.csv_data:
-            self.csv_table.insert('', 'end', values=(row['设备代号'], row['设备描述'], row['起始偏移']))
+        try:
+            for row in self.csv_table.get_children():
+                self.csv_table.delete(row)
+            for row in self.csv_data:
+                self.csv_table.insert('', 'end', values=(row['设备代号'], row['设备描述'], row['拼接地址']))
+        except Exception as e:
+            logger.error(f"导入数据异常{e}")
+            messagebox.showwarning("导入出错", f"导入数据异常{e}\n检查第一行列名是否正确", icon="error")
 
     # ---------------- 参数区 ----------------
     def create_input_section(self):
@@ -144,6 +158,7 @@ class MainUI:
         self.start_id = self._add_input(frame, "起始ID", row=0, col=0, inivar=1001) 
         self.dev_name = self._add_input(frame, "设备名称", row=0, col=1, inivar="PLC1")
         self.group_name = self._add_input(frame, "分组路径", row=0, col=2, inivar="TEST.一期")
+        self.group_name_en = self._add_combobox(frame, "设备分组", row=0, col=3, listbox=["禁用", "启用"])
 
         self.link = self._add_combobox(frame, "采集链路", row=1, col=0, listbox=["以太网", "COM"])
         #选择完成事件
@@ -271,7 +286,8 @@ class MainUI:
             "deviceseries": self.deviceseries["var"].get(), #设备系类
             "channeldriver": self.channeldriver["var"].get(),   #通道驱动
             "db_num": self.db_num["var"].get(),  #DB块号
-            "device": self.device_var.get()  #设备类型
+            "device": self.device_var.get(),  #设备类型
+            "group_name_en": self.group_name_en["var"].get()  #设备分组是否启用
         }
 
         output_path = self.csv_manager.generate_output(self.template_data, inputs)

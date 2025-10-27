@@ -1,0 +1,23 @@
+[
+  {"name": "_A_FLT", "desc": "仪表故障", "type": "IODisc", "access": "读写", "address": "DI_FLT"},
+  {"name": "_A_OLH", "desc": "信号超高限", "type": "IODisc", "access": "读写", "address": ""},
+  {"name": "_A_OLL", "desc": "信号超低限", "type": "IODisc", "access": "读写", "address": ""},
+  {"name": "_A_HH", "desc": "高高报警", "type": "IODisc", "access": "读写", "address": "A_HH"},
+  {"name": "_A_H", "desc": "高预警", "type": "IODisc", "access": "读写", "address": "A_H"},
+  {"name": "_A_L", "desc": "低预警", "type": "IODisc", "access": "读写", "address": "A_L"},
+  {"name": "_A_LL", "desc": "低低报警", "type": "IODisc", "access": "读写", "address": "A_LL"},
+  {"name": "_A_ROCH", "desc": "数据跳变报警", "type": "IODisc", "access": "读写", "address": ""},
+  {"name": "_A_ROCL", "desc": "数据停滞报警", "type": "IODisc", "access": "读写", "address": ""},
+  {"name": "_W_PV_MAX", "desc": "过程值最大设置", "type": "IOFloat", "access": "只读", "address": "W_PV_MAX"},
+  {"name": "_W_PV_MIN", "desc": "过程值最小设置", "type": "IOFloat", "access": "只读", "address": "W_PV_MIN"},
+  {"name": "_W_PV_ERR", "desc": "过程值误差设置", "type": "IOFloat", "access": "只读", "address": ""},
+  {"name": "_W_DDZ", "desc": "复位死区设置", "type": "IOFloat", "access": "只读", "address": "W_DDZ"},
+  {"name": "_W_HH", "desc": "高高报警设置", "type": "IOFloat", "access": "只读", "address":"W_HH"},
+  {"name": "_W_H", "desc": "高预警设置", "type": "IOFloat", "access": "只读", "address": "W_H"},
+  {"name": "_W_L", "desc": "低预警设置", "type": "IOFloat", "access": "只读", "address": "W_L"},
+  {"name": "_W_LL", "desc": "低低报警设置", "type": "IOFloat", "access": "只读", "address": "W_LL"},
+  {"name": "_W_ROC_H", "desc": "变化率高设置", "type": "IOFloat", "access": "只读", "address": ""},
+  {"name": "_W_ROC_T", "desc": "变化率周期(分)", "type": "IOFloat", "access": "只读", "address": ""},
+  {"name": "_V_PV", "desc": "过程值", "type": "IOFloat", "access": "只读", "address": "V_PV"},
+  {"name": "_V_MA", "desc": "信号电流", "type": "IOFloat", "access": "只读", "address": ""}
+]
