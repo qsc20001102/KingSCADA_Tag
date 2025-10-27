@@ -43,20 +43,22 @@ class MainUI:
         frame = ttk.LabelFrame(parent, text="配置文件选择", padding=5)
         frame.pack(side='left', padx=5, pady=5, anchor='nw')
 
-        ttk.Label(frame, text="设备类型：").grid(row=0, column=0, sticky='w')
-        self.device_var = tk.StringVar()
-        self.device_cb = ttk.Combobox(frame, textvariable=self.device_var, state='readonly')
-        self.device_cb['values'] = self.template_manager.get_device_types()
-        self.device_cb.grid(row=0, column=1, padx=5)
+        self.device_cb = self._add_combobox(frame, "设备类型：", row=0, col=0, listbox=self.template_manager.get_device_types(), inivar=-1)
+        #ttk.Label(frame, text="设备类型：").grid(row=0, column=0, sticky='w')
+        #self.device_var = tk.StringVar()
+        #self.device_cb = ttk.Combobox(frame, textvariable=self.device_var, state='readonly')
+        #self.device_cb['values'] = self.template_manager.get_device_types()
+        #self.device_cb.grid(row=0, column=1, padx=5)
         # 选择完成事件
-        self.device_cb.bind('<<ComboboxSelected>>', self.on_device_selected)
+        self.device_cb["combobox"].bind('<<ComboboxSelected>>', self.on_device_selected)
         
-        ttk.Label(frame, text="模板文件：").grid(row=0, column=2, sticky='w')
-        self.template_var = tk.StringVar()
-        self.template_cb = ttk.Combobox(frame, textvariable=self.template_var, state='readonly')
-        self.template_cb.grid(row=0, column=3, padx=5)
+        self.template_cb = self._add_combobox(frame, "模板文件：", row=0, col=1, listbox=[], inivar=-1)
+        #ttk.Label(frame, text="模板文件：").grid(row=0, column=2, sticky='w')
+        #self.template_var = tk.StringVar()
+        #self.template_cb = ttk.Combobox(frame, textvariable=self.template_var, state='readonly')
+        #self.template_cb.grid(row=0, column=3, padx=5)
         #选择完成事件
-        self.template_cb.bind('<<ComboboxSelected>>', self.on_template_selected)
+        self.template_cb['combobox'].bind('<<ComboboxSelected>>', self.on_template_selected)
 
         self.template_table = ttk.Treeview(frame, columns=("name","desc","type","access","address"), show="headings", height=5)
         col_defs = {
@@ -74,13 +76,13 @@ class MainUI:
     def on_device_selected(self, event=None):
         """设备类型选择完成事件"""
         # 获取目录下的所有模板文件
-        device = self.device_var.get()
-        self.template_cb['values'] = self.template_manager.get_templates_by_device(device)
+        device = self.device_cb['var'].get()
+        self.template_cb['combobox']['values'] = self.template_manager.get_templates_by_device(device)
         #更新参数区的内容
         if device == "SIEMENS" :
             for row in self.template_table.get_children():
                 self.template_table.delete(row)
-            self.template_var.set("")
+            self.template_cb['var'].set("")
             self.deviceseries['combobox']['values'] = self.deviceseries_siemens
             self.channeldriver['combobox']['values'] = self.channeldriver_siemens
             self.deviceseries['var'].set(self.deviceseries_siemens[0])
@@ -89,7 +91,7 @@ class MainUI:
         if device == "AB" :
             for row in self.template_table.get_children():
                 self.template_table.delete(row)
-            self.template_var.set("")
+            self.template_cb['var'].set("")
             self.deviceseries['combobox']['values'] = self.deviceseries_ab
             self.channeldriver['combobox']['values'] = self.channeldriver_ab
             self.deviceseries['var'].set(self.deviceseries_ab[0])
@@ -99,12 +101,13 @@ class MainUI:
 
     def on_template_selected(self, event=None):
         """模板文件选择完成事件"""
-        device = self.device_var.get()
-        template = self.template_var.get()
+        device = self.device_cb['var'].get()
+        template = self.template_cb['var'].get()
         self.template_data = self.template_manager.load_template(device, template)
         self.refresh_template_table()
 
     def refresh_template_table(self):
+        """刷新模板显示表格"""
         for row in self.template_table.get_children():
             self.template_table.delete(row)
         try:
@@ -252,7 +255,8 @@ class MainUI:
             state=state
         )
         combobox.grid(row=0, column=1, sticky='w')
-        var.set(listbox[inivar])
+        if inivar>=0:
+            var.set(listbox[inivar])
 
         return {
             "frame": frame,
@@ -286,7 +290,7 @@ class MainUI:
             "deviceseries": self.deviceseries["var"].get(), #设备系类
             "channeldriver": self.channeldriver["var"].get(),   #通道驱动
             "db_num": self.db_num["var"].get(),  #DB块号
-            "device": self.device_var.get(),  #设备类型
+            "device": self.device_cb["var"].get(),  #设备类型
             "group_name_en": self.group_name_en["var"].get()  #设备分组是否启用
         }
 
