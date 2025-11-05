@@ -165,8 +165,8 @@ class MainUI:
         self.link_com = self._add_input(frame, "串口号", row=1, col=1, inivar="11")
         self.link_ip = self._add_input(frame, "IP地址", row=1, col=1, inivar="192.168.10.11") 
         
-        self.deviceseries_siemens = ["S7-1500", "S7-1200", "S7-300"]
-        self.channeldriver_siemens = ["S71500Tcp", "S71200Tcp", "S7300Tcp"]
+        self.deviceseries_siemens = ["S7-1500", "S7-1200", "S7-300(TCP)"]
+        self.channeldriver_siemens = ["S71500Tcp", "S71200Tcp", "S7_TCP"]
         self.deviceseries_ab = ["AB-ControlLogixTCP"]
         self.channeldriver_ab = ["ControlLogix"]
         self.deviceseries = self._add_combobox(frame, "设备系列", row=2, col=0, listbox=self.deviceseries_siemens)
